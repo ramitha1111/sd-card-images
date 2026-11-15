@@ -28,6 +28,12 @@ printf "amlogic-boot-fip,%s\n" "$(git -C amlogic-boot-fip describe --tags --alwa
 build-u_boot "${DEFCONFIG}" "${TUPLE}"
 
 cd amlogic-boot-fip
+
+# Apply patches
+if [ -d "${AMLOGIC_BOOT_FIP_PATCHES_DIR}" ]; then
+	git apply "${AMLOGIC_BOOT_FIP_PATCHES_DIR}"/*.patch || :
+fi
+
 case "${BOARD_ID}" in
 libretech_s905x_cc*)
 	BOARD=lepotato
@@ -45,15 +51,18 @@ beelink_gt_king*)
 	BOARD=beelink-s922x
 	;;
 banana_pi_cm4io)
-        BOARD=bananapi-cm4io
-        ;;
+	BOARD=bananapi-cm4io
+	;;
 *)
 	# X_Y_defconfig -> x-y
 	BOARD=$(echo "${DEFCONFIG%_defconfig}" | tr _ -)
 	;;
 esac
+
+# Build FIP
 mkdir ../amlogic-boot-fip-output
 ./build-fip.sh "${BOARD}" ../u-boot/u-boot.bin ../amlogic-boot-fip-output
+
 cd ..
 
 # Copy U-Boot but don't overwrite the partition table
