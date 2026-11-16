@@ -1,6 +1,7 @@
 name: Debian/Ubuntu build/test
 
 on:
+  workflow_dispatch:
   push:
     # Always except for irrelevant changes
     paths-ignore:
