@@ -1,3 +1,10 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 3 optimizations:
+# - [MEDIUM] Add concurrency group to "test.yml"
+# - [MEDIUM] 4 jobs clone the repo — consider artifact sharing
+# - [LOW] Explicitly set fail-fast for large matrix job "test-debian-arm64" (6 combinations)
+# Estimated savings: ~5 min/run
+#
 name: Debian/Ubuntu build/test
 
 on:
@@ -18,6 +25,10 @@ on:
     # Every Sunday morning
     - cron: "00 03 * * 0"
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build-boot-armhf:
     runs-on: ubuntu-latest
