@@ -21,6 +21,7 @@ on:
 jobs:
   build-boot-armhf:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     name: build boot armhf
 
     steps:
@@ -78,6 +79,7 @@ jobs:
 
   build-boot-arm64:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     name: Build boot arm64
 
     steps:
@@ -135,6 +137,7 @@ jobs:
 
   test-debian-armhf:
     runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
     needs: build-boot-armhf
     name: Build/test ${{ matrix.os }} ${{ matrix.arch }} ${{ matrix.suite }} (armhf)
 
@@ -204,6 +207,7 @@ jobs:
 
   test-debian-arm64:
     runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
     needs: build-boot-arm64
     name: Build/test ${{ matrix.os }} ${{ matrix.arch }} ${{ matrix.suite }} (arm64)
 
